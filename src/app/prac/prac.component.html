@@ -1,0 +1,11 @@
+<table>
+  <tr *ngFor="let item of items; let i = index">
+    <td><input type="text" [disabled]="isDisabled(i)"/></td>
+    <td> <select (change)="toggle($event,i)">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+    </td>
+  </tr>
+
+</table>
