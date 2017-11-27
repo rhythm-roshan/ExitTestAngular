@@ -1,52 +1,151 @@
+<div class='btn-toolbar pull-right'>
+<button class="topright" type="button" class="btn btn-warning" (click)="logout()">EXIT</button>
+</div>
+<div style="color: white ; border: solid ; width: 10%;"><p>Hey {{this.user.UserName | uppercase}}..!!! <br> You have Rs {{this.user.AccountBalance}}</p></div>
+
 <div class="container-fluid text-center ">
 
-  <img  width="550" height="250" src="http://www.casinonewsdaily.com/wp-content/uploads/guides/illustrations/roulette/european-roulette-layout.svg" />
+  <img width="550" height="250"
+       src="http://www.casinonewsdaily.com/wp-content/uploads/guides/illustrations/roulette/european-roulette-layout.svg"/>
 
 
-<form  style="color: white; text-align: center; margin-left: 33% ">
-  <div class="form-group">
-    <div class="row">
-    <div class="col-xs-2 ">
-      <label for="ex1">1<sup>st</sup>12</label>
-      <input class="form-control" id="ex1" type="number" min="0" step="500" value="0">
+  <form name="form" #f="ngForm" style=" text-align: center; margin-left: 33% ">
+    <div class="form-group">
+      <div class="row" style="color: white;">
+        <div class="col-xs-2 ">
+          <label for="ex1">1<sup>st</sup>12</label>
+          <input class="form-control" id="ex1" name="ex1" type="number" min="0" step="500"
+                 [(ngModel)]="this.model.ex1" #ex1="ngModel" (ngModelChange)="setValue($event,'ex1')">
+        </div>
+        <div class="col-xs-2 ">
+          <label for="ex2">2<sup>nd</sup>12</label>
+          <input class="form-control" id="ex2" name="ex2" type="number" min="0" step="500"
+                 [(ngModel)]="this.model.ex2" #ex2="ngModel" (ngModelChange)="setValue($event,'ex2')">
+        </div>
+        <div class="col-xs-2 ">
+          <label for="ex3">3<sup>rd</sup>12</label>
+          <input class="form-control" id="ex3" type="number" name="ex3" min="0" step="500"
+                 [(ngModel)]="this.model.ex3" #ex3="ngModel" (ngModelChange)="setValue($event,'ex3')">
+        </div>
+      </div>
+      <div class="row" style="color: white;">
+        <div class="col-xs-2 ">
+          <label for="ex4">0</label>
+          <input class="form-control" id="ex4" type="number" name="ex4" min="0" step="500" value="0"
+                 [(ngModel)]="this.model.ex4" #ex4="ngModel" (ngModelChange)="setValue($event,'ex4')">
+        </div>
+        <div class="col-xs-2 ">
+          <label for="ex5">1 to 18</label>
+          <input class="form-control" id="ex5" type="number" min="0" name="ex5" step="500" value="0"
+                 [(ngModel)]="this.model.ex5" #ex5="ngModel" (ngModelChange)="setValue($event,'ex5')">
+        </div>
+        <div class="col-xs-2 ">
+          <label for="ex6">19 to 36</label>
+          <input class="form-control" id="ex6" type="number" min="0" step="500" name="ex6" value="0"
+                 [(ngModel)]="this.model.ex6" #ex6="ngModel" (ngModelChange)="setValue($event,'ex6')">
+        </div>
+      </div>
+      <div class="row" style="color: white;">
+        <div class="col-xs-2 ">
+          <label for="ex7">Even</label>
+          <input class="form-control" id="ex7" type="number" min="0" step="500" value="0" name="ex7"
+                 [(ngModel)]="this.model.ex7" #ex7="ngModel" (ngModelChange)="setValue($event,'ex7')">
+        </div>
+        <div class="col-xs-2 ">
+          <label for="ex8">Odd</label>
+          <input class="form-control" id="ex8" type="number" min="0" step="500" value="0" name="ex8"
+                 [(ngModel)]="this.model.ex8" #ex8="ngModel" (ngModelChange)="setValue($event,'ex8')">
+        </div>
+        <div class="col-xs-2">
+          <label for="ex9"></label>
+          <button id="ex9" type="button" class="btn btn-info form-control" data-toggle="modal" data-target="#myModal" (click)="setBetAmount()">
+            PLAY
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="col-xs-2 ">
-      <label for="ex2">2<sup>nd</sup>12</label>
-      <input class="form-control" id="ex2" type="number" min="0" step="500" value="0">
+  </form>
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-md" *ngIf="confirmBet">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">{{this.Header}} </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <p>
+              {{this.Body}}
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-default" data-dismiss="modal" value={{this.Option1}}/>
+          <input type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#confirm" (click)="play()"
+                 value={{this.Option2}}/>
+        </div>
+      </div>
     </div>
-    <div class="col-xs-2 ">
-      <label for="ex3">3<sup>rd</sup>12</label>
-      <input class="form-control" id="ex3" type="number" min="0" step="500" value="0">
+
+    <div class="modal-dialog" *ngIf="!confirmBet">
+      <div class="modal-content modal-md">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Select</h4>
+        </div>
+        <div class="modal-body">
+          <p>Please Select a bet!!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">ok</button>
+        </div>
+      </div>
     </div>
-    </div>
-    <div class="row">
-    <div class="col-xs-2 ">
-      <label for="ex4">0</label>
-      <input class="form-control" id="ex4" type="number" min="0" step="500" value="0">
-    </div>
-    <div class="col-xs-2 ">
-      <label for="ex5">1 to 18</label>
-      <input class="form-control" id="ex5" type="number" min="0" step="500" value="0">
-    </div>
-    <div class="col-xs-2 ">
-      <label for="ex6">19 to 36</label>
-      <input class="form-control" id="ex6" type="number" min="0" step="500" value="0">
-    </div>
-    </div>
-    <div class="row">
-    <div class="col-xs-2 ">
-      <label for="ex7">Even</label>
-      <input class="form-control" id="ex7" type="number" min="0" step="500" value="0">
-    </div>
-    <div class="col-xs-2 ">
-      <label for="ex8">Odd</label>
-      <input class="form-control" id="ex8" type="number" min="0" step="500" value="0">
-    </div>
-    <div class="col-xs-2">
-      <label for="ex9"></label>
-      <button id="ex9"  type="button" class="btn btn-info form-control" (click)="login()"> PLAY </button>
-    </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+
+<div class="modal fade" id="confirm" role="dialog">
+
+  <div class="modal-dialog" *ngIf="playAmount">
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">You {{this.amount>0 ? 'win':'lose'}}</h4>
+      </div>
+      <div class="modal-body">
+        <p>The Roulette Result is {{this.randomNumber}}</p><br>
+        <p> You {{this.amount>0 ? 'win':'lose'}} Rs {{amount>0 ? amount: this.betAmount}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="logout()">Exit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onPlayAgain()">Play Again!!</button>
+      </div>
     </div>
   </div>
-</form>
+  <div class="modal-dialog" *ngIf="!playAmount" >
+    <div class="modal-content model-md">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Error</h4>
+      </div>
+      <div class="modal-body">
+        <p>Sorry Dear!!</p>
+        <p>You have insufficient balance for your selections!!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ok</button>
+      </div>
+    </div>
+
+  </div>
+
 </div>

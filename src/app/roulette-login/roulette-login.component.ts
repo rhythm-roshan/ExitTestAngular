@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RouletteService} from "../roulette.service";
+import {Router} from "@angular/router";
 
 interface User {
   UserID: number,
@@ -22,14 +23,15 @@ export class RouletteLoginComponent implements OnInit {
 
   model: any = {};
 
-  constructor(private request: RouletteService) {
+  constructor(private request: RouletteService, private router: Router) {
   }
-
+load = true;
   items: User[] = [];
   error;
 
   ngOnInit() {
     this.error = 1;
+    sessionStorage.clear();
   }
 
   getUser(val) {
@@ -40,6 +42,8 @@ export class RouletteLoginComponent implements OnInit {
         if (data.UserID > 0) {
           sessionStorage.setItem("currentuser", JSON.stringify(data));
           this.error = 1;
+          this.load =false;
+          this.router.navigate(["/game"]);
 
         }
         else {

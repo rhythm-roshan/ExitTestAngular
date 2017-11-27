@@ -7,19 +7,39 @@ import {RouletteService} from "./roulette.service";
 import {HttpModule} from "@angular/http";
 import {FormsModule} from "@angular/forms";
 import { GameComponent } from './game/game.component';
-import { PracComponent } from './prac/prac.component';
+import {RouterModule} from "@angular/router";
+
+
+const approutes = [
+  {
+    path: "", redirectTo: '/login', pathMatch: 'full'
+  },
+  {
+    path: "game", component: GameComponent
+  },
+  {
+    path: "login", component: RouletteLoginComponent
+  },
+
+  {
+    path: "**", component: RouletteLoginComponent
+  }
+
+
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     RouletteLoginComponent,
-    GameComponent,
-    PracComponent
+    GameComponent
+
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot(approutes)
   ],
   providers: [RouletteService],
   bootstrap: [AppComponent]

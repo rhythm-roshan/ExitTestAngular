@@ -17,7 +17,6 @@ export class RouletteService {
 
   updateData(data)
   {
-    console.log(data);
     return this.http.put(`${BASE_URL}${data.UserID}`,data,header).map(res=> res.json());
   }
 
